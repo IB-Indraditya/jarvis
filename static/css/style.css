@@ -1,0 +1,1832 @@
+/* ============================================================
+   J.A.R.V.I.S OS — HUD design system
+   Palette: void navy background, cyan primary, amber alert accent
+   Type: Orbitron (display/labels), Rajdhani (body/data)
+   Signature element: the central voice-reactive orb
+   ============================================================ */
+
+:root {
+  --void: #050b12;
+  --void-2: #081722;
+  --panel-bg: rgba(9, 24, 36, 0.72);
+  --panel-border: rgba(56, 211, 235, 0.28);
+  --cyan: #3ee7ff;
+  --cyan-soft: #8ff3ff;
+  --cyan-dim: #0f5b6b;
+  --cyan-glow: rgba(62, 231, 255, 0.55);
+  --amber: #ffb648;
+  --text: #d9f6ff;
+  --text-dim: #6fa7b3;
+  --danger: #ff5c6c;
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Rajdhani", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  max-height: 100vh;
+  background:
+    radial-gradient(ellipse 900px 500px at 50% -10%, #0d2733 0%, transparent 60%),
+    radial-gradient(ellipse 700px 500px at 90% 100%, #0a2028 0%, transparent 55%),
+    var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(62,231,255,0.025) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(62,231,255,0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
+  z-index: 0;
+  /* height: 100vh; */
+}
+
+.hud { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; padding: 18px 22px; gap: 14px; }
+
+/* ---------------- Header ---------------- */
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--panel-border);
+  position: relative;
+  
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+
+.brand-svg { width: 44px; height: 44px; overflow: visible; }
+.brand-ring { fill: none; stroke: var(--cyan-dim); stroke-width: 1.5; }
+.brand-ring-inner { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-dasharray: 4 4; animation: spin 12s linear infinite; transform-origin: 50% 50%; }
+.brand-core { fill: var(--cyan); filter: drop-shadow(0 0 6px var(--cyan-glow)); animation: coreBeat 2.4s ease-in-out infinite; }
+
+h1 { margin: 0; font-family: var(--font-display); font-weight: 700; letter-spacing: 6px; font-size: 22px; color: var(--cyan-soft); text-shadow: 0 0 14px var(--cyan-glow); }
+.subtitle { display: block; font-size: 10px; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-top: 2px; }
+
+.header-right { display: flex; align-items: center; gap: 16px; }
+.datetime { text-align: right; font-family: var(--font-display); }
+.datetime span { display: block; }
+#clock { font-size: 16px; color: var(--cyan-soft); letter-spacing: 1px; }
+#dateStr { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+
+.lock-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255, 92, 108, 0.08);
+  border: 1px solid rgba(255, 92, 108, 0.4);
+  color: var(--danger);
+  padding: 7px 12px; border-radius: 8px;
+  font-family: var(--font-body); font-weight: 600; font-size: 12px;
+  cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+  transition: all .2s ease;
+}
+.lock-btn.unlocked { border-color: rgba(62,231,255,0.5); color: var(--cyan-soft); background: rgba(62,231,255,0.08); }
+.lock-btn:hover { filter: brightness(1.2); }
+
+.status-pill {
+  border: 1px solid var(--cyan-dim);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--cyan-soft);
+  font-family: var(--font-display);
+}
+
+/* ---------------- Layout ---------------- */
+.hud-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  gap: 16px;
+  align-items: start;
+}
+.col { display: flex; flex-direction: column; gap: 16px; }
+
+/* ---------------- Panels ---------------- */
+.panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  max-height: 645px;
+  box-shadow: 0 0 30px rgba(62,231,255,0.05) inset, 0 8px 24px rgba(0,0,0,0.3);
+}
+.panel::before {
+  content: "";
+  position: absolute; top: 0; left: 18px; right: 18px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.5;
+}
+
+.panel h2 {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cyan-soft);
+}
+
+/* ---------------- System rings ---------------- */
+.ring-row { display: flex; justify-content: space-between; margin-bottom: 16px; }
+.ring { position: relative; width: 78px; height: 78px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ring-track { fill: none; stroke: rgba(62,231,255,0.12); stroke-width: 5; }
+.ring-fill { fill: none; stroke: var(--cyan); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 213.6; stroke-dashoffset: 213.6; filter: drop-shadow(0 0 4px var(--cyan-glow)); transition: stroke-dashoffset 0.6s ease; }
+.ring span { font-family: var(--font-display); font-size: 14px; color: var(--cyan-soft); z-index: 1; }
+.ring small { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; z-index: 1; margin-top: 1px; }
+
+.mini-stats { font-size: 12px; color: var(--text-dim); display: flex; flex-direction: column; gap: 6px; }
+.mini-stats b { color: var(--text); font-weight: 600; }
+.dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); margin-right: 8px; box-shadow: 0 0 5px var(--cyan-glow); }
+
+/* ---------------- Forms / inputs ---------------- */
+.inline-form { display: flex; gap: 8px; margin-bottom: 10px; }
+.inline-form input {
+  flex: 1; background: rgba(2,10,16,0.6); border: 1px solid var(--cyan-dim);
+  color: var(--text); padding: 9px 10px; border-radius: 8px; font-family: var(--font-body); font-size: 13px;
+}
+.inline-form input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(62,231,255,0.15); }
+.inline-form button {
+  background: var(--cyan); border: none; color: #012028; font-weight: 700;
+  padding: 0 14px; border-radius: 8px; cursor: pointer; font-family: var(--font-display); font-size: 12px;
+}
+.inline-form button:hover { filter: brightness(1.1); }
+
+.weather-result { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+.weather-result b { color: var(--cyan-soft); }
+
+.link-list { list-style: none; margin: 0; padding: 0; font-size: 12px; max-height: 160px; overflow-y: auto; }
+.link-list li { padding: 7px 0; border-bottom: 1px dashed rgba(62,231,255,0.15); }
+.link-list a { color: var(--cyan-soft); text-decoration: none; }
+.link-list a:hover { text-decoration: underline; }
+
+/* ---------------- Orb panel ---------------- */
+.panel-orb { display: flex; flex-direction: column; align-items: center; }
+
+.orb-stage {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  margin: 4px auto 6px;
+}
+
+.orb { width: 100%; height: 100%; overflow: visible; }
+
+.orb-ring { fill: none; }
+.orb-ring-outer { stroke: var(--cyan-dim); stroke-width: 1; stroke-dasharray: 2 6; animation: spin 40s linear infinite; transform-origin: 200px 200px; }
+.orb-ring-mid { stroke: rgba(62,231,255,0.35); stroke-width: 1.5; stroke-dasharray: 18 6; animation: spin 26s linear infinite reverse; transform-origin: 200px 200px; }
+.orb-ring-inner { stroke: var(--cyan); stroke-width: 1; opacity: 0.5; }
+.orb-core-outline { fill: none; stroke: var(--cyan-soft); stroke-width: 1; opacity: 0.6; }
+.orb-core { transition: r 0.15s ease, opacity 0.3s ease; }
+
+.orb-ticks line { stroke: var(--cyan-dim); stroke-width: 1; }
+
+.audio-bars rect { fill: var(--cyan); opacity: 0.85; transition: height 0.08s linear; }
+
+/* Orb state variants */
+.orb.idle .orb-core { animation: coreBeat 3.2s ease-in-out infinite; }
+.orb.idle .orb-ring-inner { animation: spin 18s linear infinite; transform-origin: 200px 200px; }
+
+.orb.listening .orb-ring-inner { stroke: var(--amber); opacity: 0.9; animation: spin 6s linear infinite; transform-origin: 200px 200px; }
+.orb.listening .orb-core { fill: url(#coreGrad); animation: coreBeat 0.9s ease-in-out infinite; }
+.orb.listening .orb-ring-mid { stroke: var(--amber); }
+
+.orb.thinking .orb-ring-outer { animation: spin 3s linear infinite; }
+.orb.thinking .orb-ring-mid { animation: spin 2.2s linear infinite reverse; }
+.orb.thinking .orb-core { animation: coreBeat 0.6s ease-in-out infinite; }
+
+.orb.speaking .orb-core { animation: coreBeat 0.4s ease-in-out infinite; }
+.orb.speaking .orb-ring-inner { stroke: var(--cyan-soft); animation: spin 4s linear infinite; transform-origin: 200px 200px; }
+
+@keyframes coreBeat {
+  0%, 100% { r: 70; opacity: 0.9; }
+  50% { r: 76; opacity: 1; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Orb corner readouts */
+.orb-label { position: absolute; font-family: var(--font-display); font-size: 10px; letter-spacing: 1.5px; line-height: 1.6; }
+.orb-label-tl { top: 4px; left: 4px; text-align: left; }
+.orb-label-tr { top: 4px; right: 4px; text-align: right; }
+.orb-label-bl { bottom: 4px; left: 4px; text-align: left; }
+.orb-label-br { bottom: 4px; right: 4px; text-align: right; }
+.lbl-key { display: block; color: var(--text-dim); }
+.lbl-val { display: block; color: var(--cyan-soft); font-size: 12px; margin-top: 1px; }
+.lbl-val.on { color: var(--amber); }
+
+.live-transcript {
+  min-height: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--cyan-soft);
+  font-style: italic;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+/* Voice controls */
+.voice-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0px 0 0; }
+
+.voice-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(62,231,255,0.08);
+  border: 1px solid var(--cyan-dim);
+  color: var(--cyan-soft);
+  border-radius: 24px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+.voice-btn:hover { border-color: var(--cyan); box-shadow: 0 0 12px rgba(62,231,255,0.25); }
+.voice-btn.active { background: var(--cyan); color: #012028; border-color: var(--cyan); }
+
+#micBtn { width: 54px; height: 54px; border-radius: 50%; padding: 0; justify-content: center; }
+#micBtn.listening { background: var(--amber); border-color: var(--amber); color: #2b1900; box-shadow: 0 0 18px rgba(255,182,72,0.55); animation: micPulse 1.2s ease-in-out infinite; }
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255,182,72,0.4); }
+  50% { box-shadow: 0 0 24px rgba(255,182,72,0.8); }
+}
+
+#wakeBtn.active { background: rgba(255,182,72,0.15); border-color: var(--amber); color: var(--amber); }
+
+/* Chat */
+.chat-log {
+  width: 100%;
+  max-width: 460px;
+  min-height: 100px;
+  max-height: 160px;
+  overflow-y: auto;
+  font-size: 13px;
+  padding: 10px 4px;
+  border-top: 1px solid var(--panel-border);
+  scrollbar-width: thin;
+}
+.chat-log .msg { margin-bottom: 10px; line-height: 1.5; }
+.chat-log .user { color: #fff; }
+.chat-log .user b { color: var(--text-dim); }
+.chat-log .jarvis { color: var(--cyan-soft); }
+.chat-log .jarvis b { color: var(--cyan); }
+
+.chat-form { display: flex; gap: 8px; width: 100%; max-width: 460px; margin-top: 8px; }
+.chat-form input { flex: 1; background: rgba(2,10,16,0.6); border: 1px solid var(--cyan-dim); color: var(--text); padding: 10px; border-radius: 8px; font-family: var(--font-body); }
+.chat-form input:focus { outline: none; border-color: var(--cyan); }
+.chat-form button { background: var(--cyan); border: none; color: #012028; font-weight: 700; padding: 0 18px; border-radius: 8px; cursor: pointer; font-family: var(--font-display); font-size: 12px; }
+
+/* ---------------- IoT switches ---------------- */
+.iot-list { display: flex; flex-direction: column; gap: 12px; }
+.iot-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+.switch { position: relative; display: inline-block; width: 42px; height: 22px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background: rgba(62,231,255,0.15); border: 1px solid var(--cyan-dim); border-radius: 22px; transition: 0.2s; }
+.slider::before { content: ""; position: absolute; height: 16px; width: 16px; left: 2px; top: 2px; background: var(--text-dim); border-radius: 50%; transition: 0.2s; }
+.switch input:checked + .slider { background: rgba(62,231,255,0.35); border-color: var(--cyan); }
+.switch input:checked + .slider::before { transform: translateX(20px); background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+
+/* ---------------- Reminders ---------------- */
+.reminder-list { list-style: none; margin: 0; padding: 0; font-size: 13px; max-height: 180px; overflow-y: auto; }
+.reminder-list li { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px dashed rgba(62,231,255,0.15); }
+.reminder-list li.done { opacity: 0.4; text-decoration: line-through; }
+.reminder-list input[type="checkbox"] { accent-color: var(--cyan); }
+
+/* ---------------- Module list ---------------- */
+.module-list { list-style: none; padding: 0; margin: 0; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; }
+.mod-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 10px; background: var(--text-dim); }
+.mod-dot.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+
+/* ---------------- Footer ---------------- */
+.hud-footer {
+  display: flex; justify-content: space-between; font-size: 10.5px; letter-spacing: 1px;
+  color: var(--text-dim); padding-top: 10px; border-top: 1px solid var(--panel-border);
+  text-transform: uppercase; font-family: var(--font-display);
+}
+
+/* ---------------- Modal ---------------- */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(2,8,12,0.75); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+}
+.modal-backdrop.hidden { display: none; }
+.modal {
+  background: var(--void-2); border: 1px solid var(--panel-border); border-radius: 14px;
+  padding: 24px; width: 320px; box-shadow: 0 0 40px rgba(62,231,255,0.15);
+}
+.modal h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: 14px; color: var(--cyan-soft); letter-spacing: 1px; }
+.modal p { font-size: 12px; color: var(--text-dim); margin: 0 0 14px; line-height: 1.5; }
+.modal input { width: 100%; background: rgba(2,10,16,0.6); border: 1px solid var(--cyan-dim); color: var(--text); padding: 10px; border-radius: 8px; margin-bottom: 12px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.modal-actions button { border-radius: 8px; padding: 8px 14px; font-family: var(--font-body); font-weight: 600; cursor: pointer; border: 1px solid var(--cyan-dim); background: transparent; color: var(--text-dim); }
+.modal-actions button[type="submit"] { background: var(--cyan); color: #012028; border-color: var(--cyan); }
+.login-error { color: var(--danger); font-size: 12px; margin-top: 8px; min-height: 14px; }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1100px) {
+  .hud-grid { grid-template-columns: 1fr; }
+  .col-center { order: -1; }
+}
+@media (max-width: 600px) {
+
+    /* ================================
+       HIDE OUTER ORBS ON MOBILE
+       ================================ */
+    .side-orb,
+    .arc-reactor {
+        display: none !important;
+    }
+
+
+    /* ================================
+       MAIN HUD
+       ================================ */
+    .hud {
+        padding: 12px;
+        gap: 12px;
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+
+    /* ================================
+       HEADER
+       ================================ */
+    .hud-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        width: 100%;
+    }
+
+
+    /* Brand */
+    .brand {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .brand-svg {
+        width: 38px;
+        height: 38px;
+    }
+
+    h1 {
+        font-size: 17px;
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        font-size: 8px;
+        letter-spacing: 1.5px;
+    }
+
+
+    /* Header right section */
+    .header-right {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .datetime {
+        text-align: center;
+    }
+
+    #clock {
+        font-size: 14px;
+    }
+
+    #dateStr {
+        font-size: 9px;
+    }
+
+    .lock-btn {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+
+    .status-pill {
+        font-size: 9px;
+        padding: 5px 12px;
+    }
+
+
+    /* ================================
+       PANELS
+       ================================ */
+    .panel {
+        max-height: none !important;
+        height: auto;
+        width: 100%;
+        padding: 14px;
+        overflow: visible;
+    }
+
+    .panel h2 {
+        font-size: 10px;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+    }
+
+
+    /* ================================
+       HUD GRID
+       ================================ */
+    .hud-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .col {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .col-center {
+        order: -1;
+        width: 100%;
+    }
+
+
+    /* ================================
+       ORB STAGE
+       ================================ */
+    .orb-stage {
+        width: 100%;
+        min-height: 330px;
+        height: auto;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+    }
+
+
+    /* Main orb */
+    .main-jarvis-orb {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+
+        width: min(80vw, 300px);
+        height: min(80vw, 300px);
+
+        max-width: 300px;
+        max-height: 300px;
+
+        margin: auto;
+    }
+
+
+    .main-jarvis-orb #jarvisOrb {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    /* ================================
+       CENTER TEXT
+       ================================ */
+    .jarvis-core-label,
+    .jarvis-core-text {
+        font-size: 13px;
+        letter-spacing: 3px;
+    }
+
+
+    /* ================================
+       CHAT
+       ================================ */
+    .chat-log {
+        width: 100%;
+        max-width: 100%;
+        min-height: 100px;
+        max-height: 200px;
+        font-size: 12px;
+    }
+
+    .chat-form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .chat-form input {
+        min-width: 0;
+        font-size: 12px;
+    }
+
+    .chat-form button {
+        padding: 0 12px;
+        font-size: 10px;
+    }
+
+
+    /* ================================
+       VOICE CONTROLS
+       ================================ */
+    .voice-controls {
+        width: 100%;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .voice-btn {
+        font-size: 10px;
+        padding: 8px 12px;
+    }
+
+    #micBtn {
+        width: 48px;
+        height: 48px;
+    }
+
+
+    /* ================================
+       RINGS
+       ================================ */
+    .ring-row {
+        justify-content: space-around;
+        gap: 8px;
+    }
+
+    .ring {
+        width: 65px;
+        height: 65px;
+    }
+
+
+    /* ================================
+       FORMS
+       ================================ */
+    .inline-form {
+        width: 100%;
+    }
+
+    .inline-form input {
+        min-width: 0;
+        font-size: 12px;
+    }
+
+    .inline-form button {
+        padding: 0 12px;
+        font-size: 10px;
+    }
+
+
+    /* ================================
+       LISTS
+       ================================ */
+    .link-list,
+    .reminder-list,
+    .module-list {
+        width: 100%;
+        font-size: 11px;
+    }
+
+
+    /* ================================
+       FOOTER
+       ================================ */
+    .hud-footer {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 6px;
+        font-size: 8px;
+    }
+}
+/* ============================================================
+   JARVIS THREE ORB HUD
+   ============================================================ */
+/* ============================================================
+   THREE ORB JARVIS DISPLAY
+   ============================================================ */
+/* ============================================================
+   JARVIS ORB STAGE
+   Layout:
+
+       RED                         ORANGE
+       
+                    MAIN
+       
+       GOLD                        GREEN
+   ============================================================ */
+
+.orb-stage {
+    position: relative;
+
+    width: 100%;
+    min-height: 620px;
+
+    display: block;
+
+    overflow: visible;
+
+    box-sizing: border-box;
+
+    --reactor-size: 125px;
+}
+
+
+/* ============================================================
+   MAIN JARVIS ORB
+   ============================================================ */
+
+.main-jarvis-orb {
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    flex-shrink: 0;
+}
+
+
+.main-jarvis-orb #jarvisOrb {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    position: relative;
+
+    z-index: 3;
+}
+
+
+/* ============================================================
+   CENTER JARVIS TEXT
+   ============================================================ */
+
+.jarvis-core-label,
+.jarvis-core-text {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 18px;
+
+    letter-spacing: 4px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    color: #7cf5ff;
+
+    text-shadow:
+        0 0 5px #7cf5ff,
+        0 0 15px #00d9ff,
+        0 0 30px rgba(0, 217, 255, .8);
+}
+
+
+/* ============================================================
+   ALL FOUR OUTER CIRCLES
+   EXACTLY SAME SIZE
+   ============================================================ */
+
+.side-orb,
+.arc-reactor {
+
+    position: absolute;
+
+    width: var(--reactor-size);
+    height: var(--reactor-size);
+
+    min-width: var(--reactor-size);
+    min-height: var(--reactor-size);
+
+    max-width: var(--reactor-size);
+    max-height: var(--reactor-size);
+
+    box-sizing: border-box;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 6;
+
+    flex-shrink: 0;
+
+    overflow: visible;
+
+    cursor: pointer;
+
+    transition:
+        transform .35s ease,
+        filter .35s ease,
+        box-shadow .35s ease;
+}
+
+
+/* ============================================================
+   TOP LEFT — RED
+   ============================================================ */
+
+.side-orb-left {
+
+    left: calc(50% - 350px);
+
+    top: calc(50% - 100px);
+
+    transform: translateY(-50%);
+
+    --orb-color: #ff304f;
+    --orb-glow: rgba(255, 30, 60, .85);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 40, 70, .22) 0%,
+            rgba(80, 5, 15, .55) 45%,
+            rgba(5, 0, 3, .95) 100%
+        );
+
+    border: 1px solid rgba(255, 50, 70, .8);
+
+    box-shadow:
+        0 0 15px rgba(255, 30, 50, .45),
+        0 0 35px rgba(255, 20, 50, .2),
+        inset 0 0 30px rgba(255, 30, 60, .15);
+}
+
+
+/* ============================================================
+   TOP RIGHT — ORANGE
+   ============================================================ */
+
+.side-orb-right {
+
+    right: calc(50% - 350px);
+
+    top: calc(50% - 100px);
+
+    transform: translateY(-50%);
+
+    --orb-color: #ff8c24;
+    --orb-glow: rgba(255, 120, 20, .85);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 140, 30, .22) 0%,
+            rgba(80, 35, 5, .55) 45%,
+            rgba(5, 2, 0, .95) 100%
+        );
+
+    border: 1px solid rgba(255, 145, 40, .8);
+
+    box-shadow:
+        0 0 15px rgba(255, 120, 20, .45),
+        0 0 35px rgba(255, 100, 10, .2),
+        inset 0 0 30px rgba(255, 130, 20, .15);
+}
+
+
+/* ============================================================
+   BOTTOM LEFT — GOLD
+   ============================================================ */
+
+.arc-reactor-gold {
+
+    left: calc(50% - 350px);
+
+    top: calc(50% + 100px);
+
+    transform: translateY(-50%);
+
+    --reactor-color: #ffd21f;
+    --reactor-glow: rgba(255, 190, 0, .9);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 210, 30, .20) 0%,
+            rgba(75, 55, 0, .55) 45%,
+            rgba(5, 4, 0, .96) 100%
+        );
+
+    border: 1px solid rgba(255, 210, 30, .85);
+
+    box-shadow:
+        0 0 15px rgba(255, 190, 0, .45),
+        0 0 35px rgba(255, 180, 0, .2),
+        inset 0 0 30px rgba(255, 200, 0, .15);
+}
+
+
+/* ============================================================
+   BOTTOM RIGHT — GREEN
+   ============================================================ */
+
+.arc-reactor-green {
+
+    right: calc(50% - 350px);
+
+    top: calc(50% + 100px);
+
+    transform: translateY(-50%);
+
+    --reactor-color: #45ff70;
+    --reactor-glow: rgba(30, 255, 80, .9);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(50, 255, 90, .20) 0%,
+            rgba(5, 70, 25, .55) 45%,
+            rgba(0, 5, 2, .96) 100%
+        );
+
+    border: 1px solid rgba(60, 255, 100, .85);
+
+    box-shadow:
+        0 0 15px rgba(30, 255, 70, .45),
+        0 0 35px rgba(20, 255, 80, .2),
+        inset 0 0 30px rgba(40, 255, 90, .15);
+}
+
+
+/* ============================================================
+   CIRCULAR OUTER RINGS — ALL FOUR
+   ============================================================ */
+
+.side-orb::before,
+.arc-reactor::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -10px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--orb-color, var(--reactor-color));
+
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+
+    box-shadow:
+        0 0 10px var(--orb-glow, var(--reactor-glow)),
+        0 0 25px var(--orb-glow, var(--reactor-glow));
+
+    animation: reactorRotate 9s linear infinite;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* ============================================================
+   SECOND OUTER RING
+   ============================================================ */
+
+.side-orb::after,
+.arc-reactor::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -20px;
+
+    border-radius: 50%;
+
+    border: 1px dashed
+        color-mix(
+            in srgb,
+            var(--orb-color, var(--reactor-color)) 55%,
+            transparent
+        );
+
+    animation: reactorReverse 16s linear infinite;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* ============================================================
+   INNER CIRCLE
+   ============================================================ */
+
+.side-orb-ring {
+
+    position: absolute;
+
+    inset: 20px;
+
+    border-radius: 50%;
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--orb-color) 40%,
+            transparent
+        );
+
+    box-shadow:
+        inset 0 0 25px
+        color-mix(
+            in srgb,
+            var(--orb-color) 15%,
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   SIDE ORB CONTENT
+   ============================================================ */
+
+.side-orb-content {
+
+    position: relative;
+
+    z-index: 20;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   ICON
+   ============================================================ */
+
+.side-orb-icon {
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    margin-bottom: 6px;
+
+    color: var(--orb-color);
+
+    text-shadow:
+        0 0 8px var(--orb-color),
+        0 0 18px var(--orb-glow);
+}
+
+
+/* ============================================================
+   TITLE
+   ============================================================ */
+
+.side-orb-title {
+
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: var(--orb-color);
+
+    text-shadow:
+        0 0 8px var(--orb-color),
+        0 0 15px var(--orb-glow);
+}
+
+
+/* ============================================================
+   VALUE
+   ============================================================ */
+
+.side-orb-value {
+
+    margin-top: 8px;
+
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 8px var(--orb-color),
+        0 0 18px var(--orb-glow);
+}
+
+
+/* ============================================================
+   LABEL
+   ============================================================ */
+
+.side-orb-label {
+
+    margin-top: 5px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    color: var(--orb-color);
+
+    opacity: .75;
+}
+
+
+/* ============================================================
+   STATISTICS
+   ============================================================ */
+
+.side-orb-stats {
+
+    width: 105px;
+
+    margin-top: 8px;
+}
+
+
+.side-orb-mini {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin: 4px 0;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: rgba(255,255,255,.65);
+}
+
+
+.side-orb-mini b {
+
+    font-family: "Orbitron", sans-serif;
+
+    color: var(--orb-color);
+
+    text-shadow:
+        0 0 6px var(--orb-glow);
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.side-orb-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 7px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    color: var(--orb-color);
+}
+
+
+.status-dot,
+.gold-status-dot {
+
+    width: 5px;
+    height: 5px;
+
+    flex: 0 0 5px;
+
+    border-radius: 50%;
+
+    background: var(--orb-color, #ffd21f);
+
+    box-shadow:
+        0 0 6px var(--orb-color, #ffd21f),
+        0 0 12px var(--orb-glow, rgba(255,200,0,.8));
+
+    animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   REACTOR INNER RINGS
+   ============================================================ */
+
+.reactor-ring {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    box-sizing: border-box;
+
+    pointer-events: none;
+}
+
+
+/* First ring */
+
+.reactor-ring-1 {
+
+    width: 145px;
+    height: 145px;
+
+    border: 1px solid var(--reactor-color);
+
+    box-shadow:
+        0 0 8px var(--reactor-glow),
+        inset 0 0 8px var(--reactor-glow);
+
+    animation:
+        reactorRotate 9s linear infinite;
+}
+
+
+/* Second ring */
+
+.reactor-ring-2 {
+
+    width: 115px;
+    height: 115px;
+
+    border: 1px dashed var(--reactor-color);
+
+    opacity: .75;
+
+    animation:
+        reactorReverse 6s linear infinite;
+}
+
+
+/* Third ring */
+
+.reactor-ring-3 {
+
+    width: 82px;
+    height: 82px;
+
+    border: 2px solid var(--reactor-color);
+
+    border-left-color: transparent;
+    border-right-color: transparent;
+
+    box-shadow:
+        0 0 10px var(--reactor-glow);
+
+    animation:
+        reactorRotate 3s linear infinite;
+}
+
+
+/* ============================================================
+   REACTOR SPOKES
+   ============================================================ */
+
+.reactor-spokes {
+
+    position: absolute;
+
+    width: 105px;
+    height: 105px;
+
+    animation:
+        reactorReverse 12s linear infinite;
+
+    pointer-events: none;
+}
+
+
+.reactor-spokes span {
+
+    position: absolute;
+
+    width: 2px;
+    height: 16px;
+
+    left: 50%;
+    top: 50%;
+
+    transform-origin: 50% -42px;
+
+    background: var(--reactor-color);
+
+    box-shadow:
+        0 0 7px var(--reactor-glow);
+}
+
+
+.reactor-spokes span:nth-child(1) {
+    transform: rotate(0deg);
+}
+
+.reactor-spokes span:nth-child(2) {
+    transform: rotate(60deg);
+}
+
+.reactor-spokes span:nth-child(3) {
+    transform: rotate(120deg);
+}
+
+.reactor-spokes span:nth-child(4) {
+    transform: rotate(180deg);
+}
+
+.reactor-spokes span:nth-child(5) {
+    transform: rotate(240deg);
+}
+
+.reactor-spokes span:nth-child(6) {
+    transform: rotate(300deg);
+}
+
+
+/* ============================================================
+   REACTOR CORE
+   ============================================================ */
+
+.reactor-core {
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            var(--reactor-color) 22%,
+            var(--reactor-color) 45%,
+            transparent 75%
+        );
+
+    box-shadow:
+        0 0 10px var(--reactor-color),
+        0 0 25px var(--reactor-color),
+        0 0 45px var(--reactor-glow);
+
+    animation:
+        coreEnergy 1.4s ease-in-out infinite;
+
+    z-index: 10;
+}
+
+
+/* ============================================================
+   REACTOR TEXT
+   ============================================================ */
+
+.reactor-center-text {
+
+    position: absolute;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    font-family: "Orbitron", sans-serif;
+
+    text-align: center;
+}
+
+
+.reactor-center-text strong {
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: var(--reactor-color);
+
+    text-shadow:
+        0 0 8px var(--reactor-color),
+        0 0 18px var(--reactor-glow);
+}
+
+
+.reactor-center-text small {
+
+    margin-top: 3px;
+
+    font-size: 6px;
+
+    letter-spacing: 2px;
+
+    color: rgba(255,255,255,.72);
+}
+
+
+/* ============================================================
+   REACTOR LABEL
+   ============================================================ */
+
+.reactor-label {
+
+    position: absolute;
+
+    bottom: -27px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    white-space: nowrap;
+
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    color: var(--reactor-color);
+
+    text-shadow:
+        0 0 8px var(--reactor-glow);
+
+    opacity: .9;
+}
+
+
+/* ============================================================
+   HOVER
+   ============================================================ */
+
+.side-orb:hover,
+.arc-reactor:hover {
+
+    transform:
+        translateY(-50%)
+        scale(1.06);
+
+    filter: brightness(1.3);
+
+}
+
+
+.side-orb-left:hover,
+.side-orb-right:hover {
+
+    transform:
+        translateY(-50%)
+        scale(1.06);
+}
+
+
+.arc-reactor-gold:hover,
+.arc-reactor-green:hover {
+
+    transform:
+        translateY(-50%)
+        scale(1.06);
+}
+
+
+.arc-reactor:hover .reactor-core {
+
+    animation-duration: .65s;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes reactorRotate {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes reactorReverse {
+
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: .35;
+        transform: scale(.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+}
+
+
+@keyframes coreEnergy {
+
+    0%,
+    100% {
+        transform: scale(.8);
+        opacity: .65;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================
+   CONNECTION LINES
+   ============================================================ */
+
+.orb-stage::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 8%;
+    right: 8%;
+
+    top: 50%;
+
+    height: 1px;
+
+    transform: translateY(-50%);
+
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 50, 70, .35),
+            rgba(0, 220, 255, .6),
+            rgba(255, 140, 30, .35),
+            transparent
+        );
+
+    box-shadow:
+        0 0 8px rgba(0, 220, 255, .35);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   LARGE TABLET
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+    .orb-stage {
+        --reactor-size: 160px;
+
+        min-height: 650px;
+    }
+
+    .main-jarvis-orb {
+        width: 370px;
+        height: 370px;
+    }
+
+    .side-orb-left {
+        left: calc(50% - 430px);
+        top: calc(50% - 155px);
+    }
+
+    .side-orb-right {
+        right: calc(50% - 430px);
+        top: calc(50% - 155px);
+    }
+
+    .arc-reactor-gold {
+        left: calc(50% - 430px);
+        top: calc(50% + 220px);
+    }
+
+    .arc-reactor-green {
+        right: calc(50% - 430px);
+        top: calc(50% + 220px);
+    }
+
+    .reactor-ring-1 {
+        width: 125px;
+        height: 125px;
+    }
+
+    .reactor-ring-2 {
+        width: 100px;
+        height: 100px;
+    }
+
+    .reactor-ring-3 {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 800px) {
+
+    .orb-stage {
+
+        min-height: 900px;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        grid-template-rows:
+            160px
+            350px
+            160px;
+
+        align-items: center;
+
+        justify-items: center;
+
+        gap: 25px 15px;
+
+        padding: 30px 10px;
+    }
+
+
+    /* RED */
+
+    .side-orb-left {
+
+        position: relative;
+
+        left: auto;
+        right: auto;
+        top: auto;
+
+        grid-column: 1;
+        grid-row: 1;
+
+        transform: none;
+    }
+
+
+    /* ORANGE */
+
+    .side-orb-right {
+
+        position: relative;
+
+        left: auto;
+        right: auto;
+        top: auto;
+
+        grid-column: 2;
+        grid-row: 1;
+
+        transform: none;
+    }
+
+
+    /* MAIN */
+
+    .main-jarvis-orb {
+
+        position: relative;
+
+        left: auto;
+        top: auto;
+
+        transform: none;
+
+        grid-column: 1 / 3;
+        grid-row: 2;
+
+        width: 340px;
+        height: 340px;
+    }
+
+
+    /* GOLD */
+
+    .arc-reactor-gold {
+
+        position: relative;
+
+        left: auto;
+        right: auto;
+        top: auto;
+
+        grid-column: 1;
+        grid-row: 3;
+
+        transform: none;
+    }
+
+
+    /* GREEN */
+
+    .arc-reactor-green {
+
+        position: relative;
+
+        left: auto;
+        right: auto;
+        top: auto;
+
+        grid-column: 2;
+        grid-row: 3;
+
+        transform: none;
+    }
+
+
+    .side-orb:hover,
+    .arc-reactor:hover,
+    .side-orb-left:hover,
+    .side-orb-right:hover,
+    .arc-reactor-gold:hover,
+    .arc-reactor-green:hover {
+
+        transform: scale(1.05);
+    }
+
+
+    .orb-stage::before {
+        display: none;
+    }
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 500px) {
+
+    .orb-stage {
+
+        --reactor-size: 140px;
+
+        min-height: 800px;
+
+        grid-template-rows:
+            150px
+            300px
+            150px;
+    }
+
+
+    .main-jarvis-orb {
+
+        width: 290px;
+        height: 290px;
+    }
+
+
+    .side-orb-content {
+
+        padding: 12px;
+    }
+
+
+    .side-orb-value {
+
+        font-size: 20px;
+    }
+
+
+    .side-orb-title {
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .side-orb-stats {
+
+        width: 90px;
+    }
+
+
+    .reactor-ring-1 {
+
+        width: 105px;
+        height: 105px;
+    }
+
+
+    .reactor-ring-2 {
+
+        width: 82px;
+        height: 82px;
+    }
+
+
+    .reactor-ring-3 {
+
+        width: 60px;
+        height: 60px;
+    }
+}

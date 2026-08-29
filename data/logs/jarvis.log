@@ -1,0 +1,482 @@
+2026-08-29 13:22:01,477 | WARNING  | jarvis.brain | GEMINI_API_KEY is not set - brain will run in offline/echo mode.
+2026-08-29 13:22:01,796 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:22:03,243 | WARNING  | jarvis.brain | GEMINI_API_KEY is not set - brain will run in offline/echo mode.
+2026-08-29 13:22:03,510 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:22:56,902 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:22:59,159 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:25:55,786 | INFO     | jarvis.security | ACTIVITY | auth.login.failed | 
+2026-08-29 13:26:00,836 | INFO     | jarvis.security | ACTIVITY | auth.login.success | 
+2026-08-29 13:28:12,577 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 13:28:12,610 | INFO     | jarvis.iot | IoT device 'living_room_light' -> 'on' (mqtt_ok=False)
+2026-08-29 13:28:12,610 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 13:28:12,711 | INFO     | jarvis.iot | IoT device 'living_room_light' -> 'off' (mqtt_ok=False)
+2026-08-29 13:28:13,745 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 13:28:13,822 | INFO     | jarvis.iot | IoT device 'bedroom_fan' -> 'on' (mqtt_ok=False)
+2026-08-29 13:28:14,509 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 13:28:14,509 | INFO     | jarvis.iot | IoT device 'bedroom_fan' -> 'off' (mqtt_ok=False)
+2026-08-29 13:28:33,766 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:28:40,151 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:33:10,026 | INFO     | jarvis.security | ACTIVITY | auth.login.success | 
+2026-08-29 13:33:12,094 | INFO     | jarvis.security | ACTIVITY | auth.login.success | 
+2026-08-29 13:49:08,561 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:49:11,033 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 13:51:14,875 | ERROR    | jarvis.brain | Gemini call failed
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 67, in ask
+    response = self.client.models.generate_content(
+        model=self.model,
+        contents=full_prompt,
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config_to_call
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1747, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1534, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1511, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 202, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3-flash\nPlease retry in 45.143844474s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '45s'}]}}
+2026-08-29 13:53:06,249 | ERROR    | jarvis.brain | Gemini call failed
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 67, in ask
+    response = self.client.models.generate_content(
+        model=self.model,
+        contents=full_prompt,
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config_to_call
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1747, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1534, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1511, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 202, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3-flash\nPlease retry in 53.756049758s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '53s'}]}}
+2026-08-29 14:28:08,590 | INFO     | jarvis.automation | Reminder created: [1] light theme
+2026-08-29 14:28:42,693 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 14:28:42,742 | INFO     | jarvis.iot | IoT device 'desk_plug' -> 'on' (mqtt_ok=False)
+2026-08-29 14:28:43,261 | WARNING  | jarvis.iot | MQTT publish failed ([WinError 10061] No connection could be made because the target machine actively refused it); using in-memory mock instead.
+2026-08-29 14:28:43,497 | INFO     | jarvis.iot | IoT device 'desk_plug' -> 'off' (mqtt_ok=False)
+2026-08-29 14:31:59,400 | ERROR    | jarvis.brain | Gemini call failed
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 67, in ask
+    response = self.client.models.generate_content(
+        model=self.model,
+        contents=full_prompt,
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config_to_call
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1747, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1534, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1511, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 202, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3-flash\nPlease retry in 677.961611ms.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '0s'}]}}
+2026-08-29 14:39:14,284 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 14:39:16,586 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 14:39:33,547 | WARNING  | jarvis.brain | Gemini API quota exceeded
+2026-08-29 14:42:38,140 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 14:42:40,557 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 14:43:01,371 | ERROR    | jarvis.brain | Gemini call failed
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 67, in ask
+    response = self.client.models.generate_content(
+        model=self.model,
+        contents=prompt,
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config_to_call
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1747, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1534, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1511, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 202, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-3.5-flash-preview is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-08-29 14:44:05,306 | ERROR    | jarvis.brain | Gemini call failed
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 67, in ask
+    response = self.client.models.generate_content(
+        model=self.model,
+        contents=prompt,
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config_to_call
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1747, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1534, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\_api_client.py", line 1511, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\google\genai\errors.py", line 202, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-3.5-flash-preview is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-08-29 14:45:17,310 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 14:45:19,540 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:31:11,351 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:31:11,352 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:31:11,650 | ERROR    | jarvis.brain | Unable to set female voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:31:11,656 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:31:11,705 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:31:11,708 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:31:11,708 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:31:11,719 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:31:14,033 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:31:14,033 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:31:14,211 | ERROR    | jarvis.brain | Unable to set female voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:31:14,214 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:31:14,236 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:31:14,238 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:31:14,238 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:31:14,251 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:32:13,409 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:32:13,410 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:32:13,607 | ERROR    | jarvis.brain | Unable to set female voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:32:13,610 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:32:13,633 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:32:13,635 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:32:13,636 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:32:13,647 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:32:15,623 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:32:15,623 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:32:15,800 | ERROR    | jarvis.brain | Unable to set female voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:32:15,802 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:32:15,824 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:32:15,826 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:32:15,826 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:32:15,836 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:32:42,070 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:32:42,071 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:32:42,258 | ERROR    | jarvis.brain | Unable to set male voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:32:42,262 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:32:42,284 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:32:42,286 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:32:42,287 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:32:42,297 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:32:44,238 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:32:44,239 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:32:44,419 | ERROR    | jarvis.brain | Unable to set male voice.
+Traceback (most recent call last):
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\jarvissetup\jarvis\core\brain.py", line 528, in set_voice
+    .getProperty("voices")
+     ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\engine.py", line 187, in getProperty
+    return self.proxy.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\driver.py", line 165, in getProperty
+    return self._driver.getProperty(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 133, in getProperty
+    return [self._toVoice(attr) for attr in self._tts.GetVoices()]
+            ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Indraditya\Desktop\node js\pythonhosted\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 103, in _toVoice
+    voice_name = attr.GetDescription()
+_ctypes.COMError: (-2147200966, None, (None, None, None, 0, None))
+2026-08-29 15:32:44,422 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:32:44,442 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:32:44,445 | WARNING  | jarvis.speech | No system voices found.
+2026-08-29 15:32:44,445 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:32:44,456 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:33:20,095 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:33:20,096 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:33:20,275 | WARNING  | jarvis.brain | Invalid voice gender: 
+2026-08-29 15:33:20,275 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:33:20,294 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:33:20,295 | WARNING  | jarvis.speech | Invalid voice gender: 
+2026-08-29 15:33:20,295 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:33:20,306 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:33:23,027 | INFO     | jarvis.brain | Gemini client initialized.
+2026-08-29 15:33:23,028 | INFO     | jarvis.brain | Model fallback chain: gemini-3.1-flash-lite, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-2.5-flash, gemini-2.5-flash-lite
+2026-08-29 15:33:23,237 | WARNING  | jarvis.brain | Invalid voice gender: 
+2026-08-29 15:33:23,243 | INFO     | jarvis.brain | JARVIS TTS initialized.
+2026-08-29 15:33:23,273 | INFO     | jarvis.speech | SpeechRecognition initialized.
+2026-08-29 15:33:23,273 | WARNING  | jarvis.speech | Invalid voice gender: 
+2026-08-29 15:33:23,274 | INFO     | jarvis.speech | pyttsx3 TTS initialized.
+2026-08-29 15:33:23,286 | INFO     | jarvis.app | Starting JARVIS...
+2026-08-29 15:34:03,250 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 15:34:05,132 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 15:34:35,645 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 15:34:37,521 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 15:35:14,704 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 15:35:17,348 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:21:56,307 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:21:59,109 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:23:50,726 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:23:54,683 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:25:41,749 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:25:43,418 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:26:04,908 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:26:08,866 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:27:09,194 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:27:11,605 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:28:01,304 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:28:02,991 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:39:13,228 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:39:17,608 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:39:42,319 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:39:44,658 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:40:02,440 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:40:05,167 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:40:37,744 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:40:41,355 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:41:51,558 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:41:57,165 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:44:23,221 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:44:24,835 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:46:05,355 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:46:07,305 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:46:22,585 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:46:25,129 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:46:44,992 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:46:46,926 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:47:30,769 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:47:32,202 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:48:10,692 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:48:13,545 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:48:49,892 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:48:52,329 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:49:25,454 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:49:28,420 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:50:26,844 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:50:28,949 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:50:53,307 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:50:55,004 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:50:58,471 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:51:00,071 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:51:01,654 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:51:02,798 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:51:17,584 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:51:19,328 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
+2026-08-29 17:51:48,790 | INFO     | jarvis.brain | Local stop command detected: stop
+2026-08-29 17:51:49,029 | INFO     | jarvis.brain | JARVIS speech stopped.
+2026-08-29 17:51:57,013 | INFO     | jarvis.brain | Trying Gemini model: gemini-3.1-flash-lite
+2026-08-29 17:51:58,533 | INFO     | jarvis.brain | Gemini response received from model: gemini-3.1-flash-lite
