@@ -1,0 +1,44 @@
+# ============================================================
+# JARVIS core requirements - tested for Python 3.14
+# Versions are set as minimums (>=) rather than hard pins so pip
+# can pick whichever build has a prebuilt wheel for your Python
+# version, instead of trying to compile an old release from source.
+# ============================================================
+
+# --- Core web framework ---
+Flask>=3.1.0
+python-dotenv>=1.0.1
+
+# --- AI / LLM Brain ---
+google-genai>=0.3.0
+
+# --- Speech (Speech-to-Text / Text-to-Speech / Wake word) ---
+SpeechRecognition>=3.10.4
+pyttsx3>=2.90
+pvporcupine>=3.0.2
+
+# --- System Monitoring ---
+psutil>=6.0.0
+GPUtil>=1.4.0
+
+# --- Computer Control / Automation ---
+pyautogui>=0.9.54
+keyboard>=0.13.5
+schedule>=1.2.2
+
+# --- Information Retrieval ---
+requests>=2.32.3
+wikipedia>=1.4.0
+beautifulsoup4>=4.12.3
+
+# --- Computer Vision (core - no compiler required) ---
+opencv-python>=4.10.0
+pytesseract>=0.3.13
+numpy>=2.1.0
+Pillow>=11.0.0
+
+# --- IoT / Home control (example: MQTT) ---
+paho-mqtt>=2.1.0
+
+# --- Utilities ---
+APScheduler>=3.10.4

@@ -1,0 +1,21 @@
+# ============================================================
+# OPTIONAL extras - install these separately, only if you need them.
+# They are NOT required for JARVIS to run; every module that uses
+# them (modules/vision.py::recognize_known_face) already checks for
+# ImportError and degrades gracefully if they're missing.
+#
+# face_recognition depends on dlib, which is a compiled C++
+# library. It almost never has a prebuilt wheel available for a
+# brand-new Python release (e.g. 3.14) and needs Visual Studio
+# Build Tools (Windows) or a C++ toolchain (Linux/macOS) to build
+# from source. If you need face recognition:
+#   1. Easiest: create a separate venv on Python 3.11 or 3.12 and
+#      install this file there, or
+#   2. Install "Desktop development with C++" via the Visual Studio
+#      Build Tools installer, then:
+#         pip install cmake
+#         pip install -r requirements-optional.txt
+# ============================================================
+
+dlib>=19.24.0
+face_recognition>=1.3.0
