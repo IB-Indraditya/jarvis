@@ -16,6 +16,7 @@ google-genai>=0.3.0
 SpeechRecognition>=3.10.4
 pyttsx3>=2.90
 pvporcupine>=3.0.2
+gunicorn
 
 # --- System Monitoring ---
 psutil>=6.0.0
