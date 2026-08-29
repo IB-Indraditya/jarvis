@@ -3,6 +3,8 @@
 A modular, JARVIS-style personal AI assistant built with **Flask** and
 **Google Gemini** (`google-genai`), styled after an Iron-Man-esque HUD
 dashboard.
+<img width="1855" height="869" alt="image" src="https://github.com/user-attachments/assets/81003339-6164-4d27-b2d9-2c8d7d92ac6a" />
+
 
 ## Project structure
 
