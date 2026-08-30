@@ -38,64 +38,116 @@ logger = get_logger("jarvis.info_retrieval")
 #         logger.error(f"web_search failed: {exc}")
 #         return []
 
-def web_search(query: str, num_results: int = 5) -> list[dict]:
-    try:
-        import requests
-        import os
+# def web_search(query: str, num_results: int = 5) -> list[dict]:
+#     try:
+#         import requests
+#         import os
 
-        api_key = os.getenv("BRAVE_SEARCH_API_KEY")
+#         api_key = os.getenv("BRAVE_SEARCH_API_KEY")
+
+#         if not api_key:
+#             logger.error("BRAVE_SEARCH_API_KEY is not configured")
+#             return []
+
+#         url = "https://api.search.brave.com/res/v1/web/search"
+
+#         headers = {
+#             "Accept": "application/json",
+#             "X-Subscription-Token": api_key,
+#         }
+
+#         params = {
+#             "q": query,
+#             "count": num_results,
+#         }
+
+#         resp = requests.get(
+#             url,
+#             headers=headers,
+#             params=params,
+#             timeout=15,
+#         )
+
+#         logger.info(
+#             f"Brave Search status: {resp.status_code}"
+#         )
+
+#         resp.raise_for_status()
+
+#         data = resp.json()
+
+#         results = []
+
+#         for item in data.get("web", {}).get("results", [])[:num_results]:
+
+#             results.append({
+#                 "title": item.get("title", ""),
+#                 "url": item.get("url", ""),
+#                 "description": item.get("description", ""),
+#             })
+
+#         logger.info(
+#             f"Search returned {len(results)} results"
+#         )
+
+#         return results
+
+#     except Exception as exc:
+#         logger.exception(
+#             f"web_search failed: {exc}"
+#         )
+#         return []
+def web_search(query: str, num_results: int = 5) -> list[dict]:
+    """Web search using SerpApi."""
+
+    try:
+        import os
+        import serpapi
+
+        api_key = os.getenv("SERPAPI_KEY")
 
         if not api_key:
-            logger.error("BRAVE_SEARCH_API_KEY is not configured")
+            logger.error("SERPAPI_KEY is not configured.")
             return []
 
-        url = "https://api.search.brave.com/res/v1/web/search"
+        client = serpapi.Client(
+            api_key=api_key
+        )
 
-        headers = {
-            "Accept": "application/json",
-            "X-Subscription-Token": api_key,
-        }
-
-        params = {
+        results = client.search({
+            "engine": "google",
             "q": query,
-            "count": num_results,
-        }
+            "num": num_results,
+            "hl": "en",
+            "gl": "in"
+        })
 
-        resp = requests.get(
-            url,
-            headers=headers,
-            params=params,
-            timeout=15,
+        organic_results = results.get(
+            "organic_results",
+            []
         )
 
-        logger.info(
-            f"Brave Search status: {resp.status_code}"
-        )
+        output = []
 
-        resp.raise_for_status()
+        for result in organic_results[:num_results]:
 
-        data = resp.json()
-
-        results = []
-
-        for item in data.get("web", {}).get("results", [])[:num_results]:
-
-            results.append({
-                "title": item.get("title", ""),
-                "url": item.get("url", ""),
-                "description": item.get("description", ""),
+            output.append({
+                "title": result.get("title", ""),
+                "url": result.get("link", ""),
             })
 
         logger.info(
-            f"Search returned {len(results)} results"
+            f"SerpApi returned {len(output)} results"
         )
 
-        return results
+        return output
 
     except Exception as exc:
+
         logger.exception(
             f"web_search failed: {exc}"
         )
+
         return []
 
 def get_weather(city: str) -> dict:
