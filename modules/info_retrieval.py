@@ -42,21 +42,36 @@ def web_search(query: str, num_results: int = 5) -> list[dict]:
         import requests
         from bs4 import BeautifulSoup
 
+        url = "https://html.duckduckgo.com/html/"
+
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 "
+                "(KHTML, like Gecko) "
+                "Chrome/139.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,"
+                      "application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+
+        logger.info(f"Searching DuckDuckGo: {query}")
+
         resp = requests.post(
-            "https://html.duckduckgo.com/html/",
+            url,
             data={"q": query},
-            headers={
-                "User-Agent": "Mozilla/5.0"
-            },
+            headers=headers,
             timeout=15,
         )
 
-        logger.info(
-            f"DuckDuckGo status: {resp.status_code}"
-        )
+        logger.info(f"DuckDuckGo status: {resp.status_code}")
+        logger.info(f"Response URL: {resp.url}")
+        logger.info(f"Response length: {len(resp.text)}")
 
+        # IMPORTANT DEBUG
         logger.info(
-            f"DuckDuckGo response length: {len(resp.text)}"
+            f"Response beginning: {resp.text[:1000]}"
         )
 
         resp.raise_for_status()
@@ -66,14 +81,25 @@ def web_search(query: str, num_results: int = 5) -> list[dict]:
             "html.parser"
         )
 
+        # Check how many result elements exist
+        links = soup.select(".result__a")
+
+        logger.info(
+            f"Found result elements: {len(links)}"
+        )
+
         results = []
 
-        for a in soup.select(".result__a")[:num_results]:
+        for a in links[:num_results]:
 
-            results.append({
-                "title": a.get_text(strip=True),
-                "url": a.get("href")
-            })
+            title = a.get_text(" ", strip=True)
+            href = a.get("href")
+
+            if title and href:
+                results.append({
+                    "title": title,
+                    "url": href
+                })
 
         logger.info(
             f"Search returned {len(results)} results"
@@ -82,9 +108,11 @@ def web_search(query: str, num_results: int = 5) -> list[dict]:
         return results
 
     except Exception as exc:
+
         logger.exception(
             f"web_search failed: {exc}"
         )
+
         return []
 def get_weather(city: str) -> dict:
     if not Config.WEATHER_API_KEY:
