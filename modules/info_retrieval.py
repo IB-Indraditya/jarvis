@@ -86,6 +86,30 @@ def web_search(query: str, num_results: int = 5) -> list[dict]:
             f"web_search failed: {exc}"
         )
         return []
+def get_weather(city: str) -> dict:
+    if not Config.WEATHER_API_KEY:
+        return {"error": "WEATHER_API_KEY not configured."}
+    try:
+        resp = requests.get(
+            "https://api.openweathermap.org/data/2.5/weather",
+            params={"q": city, "appid": Config.WEATHER_API_KEY, "units": "metric"},
+            timeout=8,
+        )
+        data = resp.json()
+        if resp.status_code != 200:
+            return {"error": data.get("message", "weather lookup failed")}
+        return {
+            "city": data.get("name"),
+            "temp_c": data["main"]["temp"],
+            "feels_like_c": data["main"]["feels_like"],
+            "description": data["weather"][0]["description"],
+            "humidity": data["main"]["humidity"],
+            "wind_speed": data["wind"]["speed"],
+        }
+    except Exception as exc:  # noqa: BLE001
+        logger.error(f"get_weather failed: {exc}")
+        return {"error": str(exc)}
+
 def get_news(topic: str = "technology", num_results: int = 5) -> list[dict]:
     if not Config.NEWS_API_KEY:
         return [{"error": "NEWS_API_KEY not configured."}]
