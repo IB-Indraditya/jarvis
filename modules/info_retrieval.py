@@ -18,102 +18,26 @@ from utils.logger import get_logger
 logger = get_logger("jarvis.info_retrieval")
 
 
-# def web_search(query: str, num_results: int = 5) -> list[dict]:
-#     """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
-#     Swap this for Google Custom Search / Bing / SerpAPI in production."""
-#     try:
-#         resp = requests.post(
-#             "https://html.duckduckgo.com/html/",
-#             data={"q": query},
-#             headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
-#             timeout=8,
-#         )
-#         from bs4 import BeautifulSoup
-#         soup = BeautifulSoup(resp.text, "html.parser")
-#         results = []
-#         for a in soup.select(".result__a")[:num_results]:
-#             results.append({"title": a.get_text(strip=True), "url": a.get("href")})
-#         return results
-#     except Exception as exc:  # noqa: BLE001
-#         logger.error(f"web_search failed: {exc}")
-#         return []
 def web_search(query: str, num_results: int = 5) -> list[dict]:
+    """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
+    Swap this for Google Custom Search / Bing / SerpAPI in production."""
     try:
-        import requests
-        from bs4 import BeautifulSoup
-
-        url = "https://html.duckduckgo.com/html/"
-
-        headers = {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 "
-                "(KHTML, like Gecko) "
-                "Chrome/139.0.0.0 Safari/537.36"
-            ),
-            "Accept": "text/html,application/xhtml+xml,"
-                      "application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.9",
-        }
-
-        logger.info(f"Searching DuckDuckGo: {query}")
-
         resp = requests.post(
-            url,
+            "https://html.duckduckgo.com/html/",
             data={"q": query},
-            headers=headers,
-            timeout=15,
+            headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
+            timeout=8,
         )
-
-        logger.info(f"DuckDuckGo status: {resp.status_code}")
-        logger.info(f"Response URL: {resp.url}")
-        logger.info(f"Response length: {len(resp.text)}")
-
-        # IMPORTANT DEBUG
-        logger.info(
-            f"Response beginning: {resp.text[:1000]}"
-        )
-
-        resp.raise_for_status()
-
-        soup = BeautifulSoup(
-            resp.text,
-            "html.parser"
-        )
-
-        # Check how many result elements exist
-        links = soup.select(".result__a")
-
-        logger.info(
-            f"Found result elements: {len(links)}"
-        )
-
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(resp.text, "html.parser")
         results = []
-
-        for a in links[:num_results]:
-
-            title = a.get_text(" ", strip=True)
-            href = a.get("href")
-
-            if title and href:
-                results.append({
-                    "title": title,
-                    "url": href
-                })
-
-        logger.info(
-            f"Search returned {len(results)} results"
-        )
-
+        for a in soup.select(".result__a")[:num_results]:
+            results.append({"title": a.get_text(strip=True), "url": a.get("href")})
         return results
-
-    except Exception as exc:
-
-        logger.exception(
-            f"web_search failed: {exc}"
-        )
-
+    except Exception as exc:  # noqa: BLE001
+        logger.error(f"web_search failed: {exc}")
         return []
+
 def get_weather(city: str) -> dict:
     if not Config.WEATHER_API_KEY:
         return {"error": "WEATHER_API_KEY not configured."}
