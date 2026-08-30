@@ -128,11 +128,17 @@ def screenshot():
 # ============================================================
 # 4. Information retrieval
 # ============================================================
+# @api_bp.route("/info/search", methods=["GET"])
+# def search():
+#     q = request.args.get("q", "")
+#     return jsonify({"results": info_retrieval.web_search(q)})
+
 @api_bp.route("/info/search", methods=["GET"])
 def search():
     q = request.args.get("q", "")
-    return jsonify({"results": info_retrieval.web_search(q)})
-
+    return jsonify({
+        "results": info_retrieval.web_search(q)
+    })
 
 @api_bp.route("/info/weather", methods=["GET"])
 def weather():
