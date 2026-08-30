@@ -18,24 +18,110 @@ from utils.logger import get_logger
 logger = get_logger("jarvis.info_retrieval")
 
 
+# def web_search(query: str, num_results: int = 5) -> list[dict]:
+#     """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
+#     Swap this for Google Custom Search / Bing / SerpAPI in production."""
+#     try:
+#         resp = requests.post(
+#             "https://html.duckduckgo.com/html/",
+#             data={"q": query},
+#             headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
+#             timeout=8,
+#         )
+#         from bs4 import BeautifulSoup
+#         soup = BeautifulSoup(resp.text, "html.parser")
+#         results = []
+#         for a in soup.select(".result__a")[:num_results]:
+#             results.append({"title": a.get_text(strip=True), "url": a.get("href")})
+#         return results
+#     except Exception as exc:  # noqa: BLE001
+#         logger.error(f"web_search failed: {exc}")
+#         return []
 def web_search(query: str, num_results: int = 5) -> list[dict]:
-    """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
-    Swap this for Google Custom Search / Bing / SerpAPI in production."""
+    """Search the web using DuckDuckGo HTML."""
+
     try:
-        resp = requests.post(
-            "https://html.duckduckgo.com/html/",
-            data={"q": query},
-            headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
-            timeout=8,
-        )
+        import requests
         from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
+
+        if not query or not query.strip():
+            return []
+
+        num_results = max(1, min(int(num_results), 10))
+
+        url = "https://html.duckduckgo.com/html/"
+
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 "
+                "(KHTML, like Gecko) "
+                "Chrome/139.0 Safari/537.36"
+            )
+        }
+
+        response = requests.post(
+            url,
+            data={"q": query.strip()},
+            headers=headers,
+            timeout=10
+        )
+
+        response.raise_for_status()
+
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser"
+        )
+
         results = []
-        for a in soup.select(".result__a")[:num_results]:
-            results.append({"title": a.get_text(strip=True), "url": a.get("href")})
+
+        for item in soup.select(".result"):
+
+            link = item.select_one(".result__a")
+
+            if not link:
+                continue
+
+            title = link.get_text(
+                " ",
+                strip=True
+            )
+
+            result_url = link.get("href")
+
+            if not result_url:
+                continue
+
+            results.append({
+                "title": title,
+                "url": result_url
+            })
+
+            if len(results) >= num_results:
+                break
+
+        logger.info(
+            f"Web search: '{query}' -> "
+            f"{len(results)} results"
+        )
+
         return results
-    except Exception as exc:  # noqa: BLE001
-        logger.error(f"web_search failed: {exc}")
+
+    except requests.RequestException as exc:
+
+        logger.error(
+            f"Web search request failed: {exc}"
+        )
+
+        return []
+
+    except Exception as exc:
+
+        logger.error(
+            f"web_search failed: {exc}"
+        )
+
         return []
 
 
