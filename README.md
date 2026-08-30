@@ -4,7 +4,8 @@ Link: https://jarvis-10-ppl5.onrender.com/
 A modular, JARVIS-style personal AI assistant built with **Flask** and
 **Google Gemini** (`google-genai`), styled after an Iron-Man-esque HUD
 dashboard.
-<img width="1855" height="869" alt="image" src="https://github.com/user-attachments/assets/81003339-6164-4d27-b2d9-2c8d7d92ac6a" />
+<img width="1886" height="909" alt="image" src="https://github.com/user-attachments/assets/938f1e59-062e-4988-ac9b-3372e0272f77" />
+
 
 
 ## Project structure
