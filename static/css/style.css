@@ -623,9 +623,62 @@ h1 { margin: 0; font-family: var(--font-display); font-weight: 700; letter-spaci
         font-size: 8px;
     }
 }
+
 /* ============================================================
    JARVIS THREE ORB HUD
    ============================================================ */
+.jarvis-welcome {
+    color: #00eaff;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    /* JARVIS glow */
+    text-shadow:
+        0 0 5px #00eaff,
+        0 0 10px #00eaff,
+        0 0 20px #00bfff,
+        0 0 40px rgba(0, 234, 255, 0.8);
+
+    /* Animation */
+    animation:
+        jarvisGlow 2s ease-in-out infinite alternate,
+        jarvisFloat 3s ease-in-out infinite;
+
+    position: relative;
+}
+
+/* Pulsing neon glow */
+@keyframes jarvisGlow {
+    from {
+        text-shadow:
+            0 0 5px #00eaff,
+            0 0 10px #00eaff,
+            0 0 20px #00bfff;
+        opacity: 0.75;
+    }
+
+    to {
+        text-shadow:
+            0 0 8px #00eaff,
+            0 0 15px #00eaff,
+            0 0 30px #00bfff,
+            0 0 50px rgba(0, 234, 255, 0.9);
+        opacity: 1;
+    }
+}
+
+/* Very subtle floating effect */
+@keyframes jarvisFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
 /* ============================================================
    THREE ORB JARVIS DISPLAY
    ============================================================ */
