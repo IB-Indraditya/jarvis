@@ -18,24 +18,84 @@ from utils.logger import get_logger
 logger = get_logger("jarvis.info_retrieval")
 
 
+# def web_search(query: str, num_results: int = 5) -> list[dict]:
+#     """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
+#     Swap this for Google Custom Search / Bing / SerpAPI in production."""
+#     try:
+#         resp = requests.post(
+#             "https://html.duckduckgo.com/html/",
+#             data={"q": query},
+#             headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
+#             timeout=8,
+#         )
+#         from bs4 import BeautifulSoup
+#         soup = BeautifulSoup(resp.text, "html.parser")
+#         results = []
+#         for a in soup.select(".result__a")[:num_results]:
+#             results.append({"title": a.get_text(strip=True), "url": a.get("href")})
+#         return results
+#     except Exception as exc:  # noqa: BLE001
+#         logger.error(f"web_search failed: {exc}")
+#         return []
+
 def web_search(query: str, num_results: int = 5) -> list[dict]:
-    """Generic web search using DuckDuckGo's HTML endpoint (no API key needed).
-    Swap this for Google Custom Search / Bing / SerpAPI in production."""
     try:
-        resp = requests.post(
-            "https://html.duckduckgo.com/html/",
-            data={"q": query},
-            headers={"User-Agent": "Mozilla/5.0 (JARVIS)"},
-            timeout=8,
+        import requests
+        import os
+
+        api_key = os.getenv("BRAVE_SEARCH_API_KEY")
+
+        if not api_key:
+            logger.error("BRAVE_SEARCH_API_KEY is not configured")
+            return []
+
+        url = "https://api.search.brave.com/res/v1/web/search"
+
+        headers = {
+            "Accept": "application/json",
+            "X-Subscription-Token": api_key,
+        }
+
+        params = {
+            "q": query,
+            "count": num_results,
+        }
+
+        resp = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            timeout=15,
         )
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
+
+        logger.info(
+            f"Brave Search status: {resp.status_code}"
+        )
+
+        resp.raise_for_status()
+
+        data = resp.json()
+
         results = []
-        for a in soup.select(".result__a")[:num_results]:
-            results.append({"title": a.get_text(strip=True), "url": a.get("href")})
+
+        for item in data.get("web", {}).get("results", [])[:num_results]:
+
+            results.append({
+                "title": item.get("title", ""),
+                "url": item.get("url", ""),
+                "description": item.get("description", ""),
+            })
+
+        logger.info(
+            f"Search returned {len(results)} results"
+        )
+
         return results
-    except Exception as exc:  # noqa: BLE001
-        logger.error(f"web_search failed: {exc}")
+
+    except Exception as exc:
+        logger.exception(
+            f"web_search failed: {exc}"
+        )
         return []
 
 def get_weather(city: str) -> dict:
